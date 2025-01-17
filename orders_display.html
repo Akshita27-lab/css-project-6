@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza World - Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe4c4;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff8dc;
+        }
+        th, td {
+            border: 1px solid #d2691e;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #d2691e;
+            color: #fff;
+        }
+        button {
+            background-color: #d2691e;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #ff8c00;
+        }
+        .no-order {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+            color: #d2691e;
+        }
+    </style>
+</head>
+<body>
+    <h1>Current Order</h1>
+    <table id="ordersTable">
+        <thead>
+            <tr>
+                <th>Customer Name</th>
+                <th>Pizza Type</th>
+                <th>Quantity</th>
+                <th>Special Instructions</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Current order will be displayed here -->
+        </tbody>
+    </table>
+
+    <button onclick="window.location.href='order.html'">Place Another Order</button>
+
+    <script>
+        // Retrieve the current order from localStorage
+        const order = JSON.parse(localStorage.getItem('currentOrder'));
+
+        const ordersTableBody = document.getElementById('ordersTable').getElementsByTagName('tbody')[0];
+
+        if (order) {
+            // Create a new row for the current order
+            const row = ordersTableBody.insertRow();
+
+            // Insert cells with order details
+            const cellName = row.insertCell(0);
+            const cellPizzaType = row.insertCell(1);
+            const cellQuantity = row.insertCell(2);
+            const cellInstructions = row.insertCell(3);
+            const cellActions = row.insertCell(4);
+
+            cellName.innerText = order.customerName;
+            cellPizzaType.innerText = order.pizzaType.charAt(0).toUpperCase() + order.pizzaType.slice(1);
+            cellQuantity.innerText = order.quantity;
+            cellInstructions.innerText = order.specialInstructions || 'None';
+
+            // Add Edit button
+            const editButton = document.createElement('button');
+            editButton.innerText = 'Edit';
+            editButton.onclick = function () {
+                localStorage.setItem('editOrder', JSON.stringify(order)); // Store the order to edit
+                window.location.href = 'edit_order.html'; // Redirect to the edit page
+            };
+
+            // Add Delete button
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Delete';
+            deleteButton.onclick = function () {
+                localStorage.removeItem('currentOrder'); // Delete the current order
+                location.reload(); // Reload the page to update the view
+            };
+
+            // Append buttons to the Actions column
+            cellActions.appendChild(editButton);
+            cellActions.appendChild(deleteButton);
+
+            row.classList.add('current-order-row');
+        } else {
+            // If there's no current order, display a message
+            const row = ordersTableBody.insertRow();
+            const cell = row.insertCell(0);
+            cell.colSpan = 5;
+            cell.innerText = 'No current order to display.';
+            cell.classList.add('no-order');
+        }
+    </script>
+</body>
+</html>

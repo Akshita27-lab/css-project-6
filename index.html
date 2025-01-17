@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Pizza World</title>
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1981&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); /* Direct image URL from Unsplash */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 245, 235, 0.85);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            width: 350px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #8B4513;
+        }
+        input {
+            padding: 12px;
+            border: 1px solid #1e8ad2;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 12px;
+            background-color: #e3bcae;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #c99f7f;
+        }
+        .signup-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="loginForm">
+            <h1>Welcome to Pizza World</h1>
+            <div>
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div>
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <button type="submit">Login</button>
+            <p class="signup-link">New to Pizza World? <a href="signup.html">Sign up here</a></p>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Check if password is numeric
+            if (username && /^[0-9]+$/.test(password)) {
+                sessionStorage.setItem('userLoggedIn', 'true');
+                sessionStorage.setItem('username', username);
+                // Redirect to order.html after successful login
+                window.location.href = 'order.html';
+            } else {
+                alert('Invalid username or password. Ensure the password is numeric.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- (Existing head content remains unchanged) -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza World - Place Your Order</title>
+    <style>
+        /* (Existing styles remain unchanged) */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe4c4;
+            padding: 20px;
+        }
+        form {
+            background-color: #fff8dc;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        input, select, button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #d2691e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff8c00;
+        }
+        .logout {
+            background-color: #ff4500;
+        }
+        .logout:hover {
+            background-color: #ff6347;
+        }
+    </style>
+</head>
+<body>
+    <h1>Place Your Pizza Order</h1>
+    <form id="orderForm">
+        <input type="text" id="customerName" placeholder="Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="tel" id="contactNumber" placeholder="Contact Number" required>
+        <input type="number" id="quantity" placeholder="Quantity (pizzas)" required>
+        <input type="text" id="specialInstructions" placeholder="Special Instructions">
+
+        <label for="pizzaType">Select Pizza Type</label>
+        <select id="pizzaType" required>
+            <option value="margherita">Margherita</option>
+            <option value="pepperoni">Pepperoni</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="hawaiian">Hawaiian</option>
+            <option value="bbq chicken">BBQ Chicken</option>
+        </select>
+
+        <button type="submit">Submit Order</button>
+    </form>
+
+    <button class="logout" id="logoutButton">Logout</button>
+
+    <script>
+        const logoutButton = document.getElementById('logoutButton');
+        const orderForm = document.getElementById('orderForm');
+
+        // Logout functionality remains unchanged
+        logoutButton.addEventListener('click', function() {
+            sessionStorage.removeItem('userLoggedIn');
+            sessionStorage.removeItem('username');
+            window.location.href = 'index.html'; // Redirect to login page
+        });
+
+        // Update the form submission to store only the current order
+        orderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const customerName = document.getElementById('customerName').value;
+            const email = document.getElementById('email').value;
+            const contactNumber = document.getElementById('contactNumber').value;
+            const quantity = document.getElementById('quantity').value;
+            const specialInstructions = document.getElementById('specialInstructions').value;
+            const pizzaType = document.getElementById('pizzaType').value;
+
+            const newOrder = {
+                customerName,
+                email,
+                contactNumber,
+                quantity,
+                specialInstructions,
+                pizzaType
+            };
+
+            // **Store only the latest order**
+            localStorage.setItem('currentOrder', JSON.stringify(newOrder));
+
+            // Optional: Clear the form after submission
+            orderForm.reset();
+
+            // Redirect to orders_display.html after successful order submission
+            window.location.href = 'orders_display.html';
+        });
+    </script>
+</body>
+</html>

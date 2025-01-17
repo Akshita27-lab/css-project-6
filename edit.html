@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Grocery Entry</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .form-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Edit Grocery Entry</h1>
+
+    <div class="form-container">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="date" id="date" required>
+        <input type="time" id="time" required>
+        <input type="number" id="quantity" placeholder="Quantity" required>
+        <input type="number" id="price" placeholder="Price" required>
+        <button onclick="saveChanges()">Save Changes</button>
+    </div>
+
+    <script>
+        // Retrieve the data from localStorage
+        const editIndex = localStorage.getItem("editIndex");
+        const editData = JSON.parse(localStorage.getItem("editData"));
+
+        // Populate the form with the existing data
+        document.getElementById("name").value = editData.name;
+        document.getElementById("date").value = editData.date;
+        document.getElementById("time").value = editData.time;
+        document.getElementById("quantity").value = editData.quantity;
+        document.getElementById("price").value = editData.price;
+
+        // Save the updated data
+        function saveChanges() {
+            const name = document.getElementById("name").value;
+            const date = document.getElementById("date").value;
+            const time = document.getElementById("time").value;
+            const quantity = document.getElementById("quantity").value;
+            const price = document.getElementById("price").value;
+
+            if (name && date && time && quantity && price) {
+                // Update the grocery list with the new values
+                let groceryList = JSON.parse(localStorage.getItem("groceryList"));
+                groceryList[editIndex] = { name, date, time, quantity, price };
+                localStorage.setItem("groceryList", JSON.stringify(groceryList));
+
+                // Redirect back to the grocery list page
+                window.location.href = "grocerylist.html"; // Go back to the grocery list page
+            } else {
+                alert("Please fill all fields.");
+            }
+        }
+    </script>
+
+</body>
+</html>
